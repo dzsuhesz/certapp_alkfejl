@@ -1,0 +1,82 @@
+<div class="page">
+  <div class="page-header">
+    <h1>👤 Felhasználói Tanúsítványok</h1>
+    <button class="btn-primary" (click)="showForm = !showForm">
+      {{ showForm ? 'Mégse' : '+ Új tanúsítvány' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="form-card">
+      <h2>Új Felhasználói Tanúsítvány</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Common Name</label>
+          <input [(ngModel)]="newCert.commonName" placeholder="pl. John Doe" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="newCert.email" placeholder="pl. john@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Root Certificate ID</label>
+          <input [(ngModel)]="newCert.rootCertificateId" placeholder="A root cert MongoDB ID-ja" />
+        </div>
+        <div class="form-group">
+          <label>Lejárat dátuma</label>
+          <input type="date" [(ngModel)]="newCert.expiresAt" />
+        </div>
+        <div class="form-group full-width">
+          <label>CSR Data</label>
+          <textarea [(ngModel)]="newCert.csrData" rows="3"
+            placeholder="-----BEGIN CERTIFICATE REQUEST-----"></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>PEM Data</label>
+          <textarea [(ngModel)]="newCert.pemData" rows="3"
+            placeholder="-----BEGIN CERTIFICATE-----"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" (click)="createCertificate()">Létrehozás</button>
+    </div>
+  }
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Common Name</th>
+          <th>Email</th>
+          <th>Root Cert ID</th>
+          <th>Aláírva</th>
+          <th>Lejárat</th>
+          <th>Műveletek</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cert of certificates; track cert.id) {
+          <tr>
+            <td>{{ cert.commonName }}</td>
+            <td>{{ cert.email }}</td>
+            <td class="mono">{{ cert.rootCertificateId | slice:0:12 }}...</td>
+            <td>{{ cert.signedAt | date:'yyyy-MM-dd' }}</td>
+            <td>{{ cert.expiresAt | date:'yyyy-MM-dd' }}</td>
+            <td>
+              <button class="btn-danger" (click)="deleteCertificate(cert.id!)">Törlés</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">Nincs még tanúsítvány</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="page === 1">← Előző</button>
+      <span>{{ page }} / {{ totalPages }} oldal (összesen: {{ total }})</span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Következő →</button>
+    </div>
+  </div>
+</div>

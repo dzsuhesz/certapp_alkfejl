@@ -1,0 +1,77 @@
+<div class="page">
+  <div class="page-header">
+    <h1>🔐 Root Tanúsítványok</h1>
+    <button class="btn-primary" (click)="showForm = !showForm">
+      {{ showForm ? 'Mégse' : '+ Új tanúsítvány' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="form-card">
+      <h2>Új Root Tanúsítvány</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Common Name</label>
+          <input [(ngModel)]="newCert.commonName" placeholder="pl. My Root CA" />
+        </div>
+        <div class="form-group">
+          <label>Organization</label>
+          <input [(ngModel)]="newCert.organization" placeholder="pl. My Org" />
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <input [(ngModel)]="newCert.country" placeholder="pl. HU" maxlength="2" />
+        </div>
+        <div class="form-group">
+          <label>Lejárat dátuma</label>
+          <input type="date" [(ngModel)]="newCert.expiresAt" />
+        </div>
+        <div class="form-group full-width">
+          <label>PEM Data</label>
+          <textarea [(ngModel)]="newCert.pemData" rows="4"
+            placeholder="-----BEGIN CERTIFICATE-----"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" (click)="createCertificate()">Létrehozás</button>
+    </div>
+  }
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Common Name</th>
+          <th>Organization</th>
+          <th>Country</th>
+          <th>Létrehozva</th>
+          <th>Lejárat</th>
+          <th>Műveletek</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cert of certificates; track cert.id) {
+          <tr>
+            <td>{{ cert.commonName }}</td>
+            <td>{{ cert.organization }}</td>
+            <td>{{ cert.country }}</td>
+            <td>{{ cert.createdAt | date:'yyyy-MM-dd' }}</td>
+            <td>{{ cert.expiresAt | date:'yyyy-MM-dd' }}</td>
+            <td>
+              <button class="btn-danger" (click)="deleteCertificate(cert.id!)">Törlés</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">Nincs még tanúsítvány</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="page === 1">← Előző</button>
+      <span>{{ page }} / {{ totalPages }} oldal (összesen: {{ total }})</span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Következő →</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+.page {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h1 { font-size: 1.8rem; color: #1a1a2e; }
+  }
+
+  .form-card, .table-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .full-width { grid-column: 1 / -1; }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label { font-weight: 600; font-size: 0.9rem; color: #555; }
+
+    input, textarea {
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      &:focus { outline: none; border-color: #4fc3f7; }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      background: #1a1a2e;
+      color: white;
+      padding: 0.8rem;
+      text-align: left;
+    }
+
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover td { background: #f8f9fa; }
+
+    .empty { text-align: center; color: #999; padding: 2rem; }
+    .mono { font-family: monospace; font-size: 0.85rem; }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      background: white;
+      &:disabled { opacity: 0.4; cursor: not-allowed; }
+      &:hover:not(:disabled) { background: #1a1a2e; color: white; }
+    }
+  }
+}
+
+.btn-primary {
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  &:hover { background: #4fc3f7; }
+}
+
+.btn-danger {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover { background: #b71c1c; }
+}

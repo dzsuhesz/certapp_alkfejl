@@ -1,0 +1,37 @@
+services:
+  mongodb:
+    image: mongo:8
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build:
+      context: ./backend/CertStore.Api
+      dockerfile: Dockerfile
+    container_name: certstore-backend
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseSettings__ConnectionString=mongodb://mongodb:27017
+      - DatabaseSettings__DatabaseName=CertStoreDb
+      - DatabaseSettings__RootCertificatesCollection=RootCertificates
+      - DatabaseSettings__UserCertificatesCollection=UserCertificates
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: certstore-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,49 @@
+@baseUrl = http://localhost:5000/api
+
+### ROOT CERTIFICATES
+
+### Összes root cert lekérése
+GET {{baseUrl}}/rootcertificates?page=1&pageSize=10
+
+### Root cert lekérése ID alapján
+GET {{baseUrl}}/rootcertificates/{ID}
+
+### Root cert létrehozása
+POST {{baseUrl}}/rootcertificates
+Content-Type: application/json
+
+{
+  "commonName": "My Root CA",
+  "organization": "My Org",
+  "country": "HU",
+  "expiresAt": "2030-01-01T00:00:00Z",
+  "pemData": "-----BEGIN CERTIFICATE----."
+}
+
+### Root cert törlése
+DELETE {{baseUrl}}/rootcertificates/ID
+
+
+### USER CERTIFICATES
+
+### Összes user cert lekérése
+GET {{baseUrl}}/usercertificates?page=1&pageSize=10
+
+### User cert lekérése ID alapján
+GET {{baseUrl}}/usercertificates/ID
+
+### User cert létrehozása (CSR)
+POST {{baseUrl}}/usercertificates
+Content-Type: application/json
+
+{
+  "commonName": "John Doe",
+  "email": "john@example.com",
+  "rootCertificateId": "ROOT_ID",
+  "csrData": "-----BEGIN CERTIFICATE REQUEST----",
+  "pemData": "-----BEGIN CERTIFICATE-----",
+  "expiresAt": "2027-01-01T00:00:00Z"
+}
+
+### User cert törlése
+DELETE {{baseUrl}}/usercertificates/ID
